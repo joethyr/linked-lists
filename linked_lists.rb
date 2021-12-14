@@ -86,6 +86,16 @@ class LinkedList
     end
   end
 
+  def contains?(value)
+    current_node = head
+    until current_node.next_node.nil?
+      return true if current_node.value == value
+
+      current_node = current_node.next_node
+    end
+    false
+  end
+
   private
 
   class Node
@@ -108,4 +118,4 @@ puts ll.head.next_node.value
 puts ll.size
 puts ll.tail
 puts ll.at(0)
-
+puts ll.contains?(9)
