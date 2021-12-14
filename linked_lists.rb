@@ -4,7 +4,6 @@ class LinkedList
   attr_accessor :head
 
   def initialize(head = nil)
-    # when we create a LinkedList we want it to intially be empty
     @head = head
   end
 
@@ -13,14 +12,34 @@ class LinkedList
     if head.nil?
       @head = Node.new(value)
     else
-      # find the last node in LinkedList and set the next node equal to a new node.
-      last_node = head
-      last_node = last_node.next_node until last_node.next_node.nil?
+      node = head
+      node = node.next_node until node.next_node.nil?
 
-      # we are at the end of the list.
-      last_node.next_node = Node.new(value)
+      node.next_node = Node.new(value)
     end
   end
+
+# adds a new node containing value to the start of the list
+  def prepend(value)
+    if head.nil?
+      @head = Node.new(value)
+    else
+      next_node = head
+      @head = Node.new(value, next_node)
+    end
+
+  end
+
+  def find(value)
+    node = head
+    until node.nil?
+      return true if node.value == value
+
+      node = node.next_node
+    end
+    false
+  end
+
 
   private
 
@@ -35,7 +54,7 @@ class LinkedList
 end
 
 ll = LinkedList.new
-ll.append(10)
-ll.append(20)
+ll.prepend(15)
+ll.prepend(8)
 puts ll.head.value
 puts ll.head.next_node.value
