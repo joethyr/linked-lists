@@ -40,6 +40,11 @@ class LinkedList
     counter
   end
 
+  # returns the first node in the list
+  def head_node
+    head.value
+  end
+
   def find(value)
     node = head
     until node.nil?
@@ -70,3 +75,4 @@ ll.prepend(9)
 puts ll.head.value
 puts ll.head.next_node.value
 puts ll.size
+puts ll.head_node
