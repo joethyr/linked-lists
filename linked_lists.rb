@@ -19,7 +19,7 @@ class LinkedList
     end
   end
 
-# adds a new node containing value to the start of the list
+  # adds a new node containing value to the start of the list
   def prepend(value)
     if head.nil?
       @head = Node.new(value)
@@ -27,7 +27,17 @@ class LinkedList
       next_node = head
       @head = Node.new(value, next_node)
     end
+  end
 
+  # returns the total number of nodes in the list
+  def size
+    counter = 0
+    node = head
+    until node.nil?
+      counter += 1
+      node = node.next_node
+    end
+    counter
   end
 
   def find(value)
@@ -39,7 +49,6 @@ class LinkedList
     end
     false
   end
-
 
   private
 
@@ -56,5 +65,8 @@ end
 ll = LinkedList.new
 ll.prepend(15)
 ll.prepend(8)
+ll.prepend(3)
+ll.prepend(9)
 puts ll.head.value
 puts ll.head.next_node.value
+puts ll.size
