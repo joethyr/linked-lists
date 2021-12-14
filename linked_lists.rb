@@ -85,7 +85,7 @@ class LinkedList
       prev_node.next_node = nil
     end
   end
-
+  # returns true if the passed in value is in the list and otherwise returns false.
   def contains?(value)
     current_node = head
     until current_node.next_node.nil?
@@ -94,6 +94,17 @@ class LinkedList
       current_node = current_node.next_node
     end
     false
+  end
+
+  def to_s
+    output = ''
+    current_node = head
+    until current_node.nil?
+      output << "( #{current_node.value} ) ->"
+      current_node = current_node.next_node
+    end
+    output << 'nil'
+    output
   end
 
   private
