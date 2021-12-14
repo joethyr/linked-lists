@@ -1,7 +1,7 @@
 #
 class LinkedList
   # head acts as a place to start for linkedlist
-  attr_accessor :head, :tail
+  attr_accessor :head
 
   def initialize(head = nil)
     @head = head
@@ -15,7 +15,6 @@ class LinkedList
       node = head
       node = node.next_node until node.next_node.nil?
 
-      @tail = node
       node.next_node = Node.new(value)
     end
   end
@@ -53,6 +52,19 @@ class LinkedList
     node.value
   end
 
+  # returns the node at the given index
+  def at(index)
+    current_node = head
+    current_index = 0
+    return current_node.value if index.zero?
+
+    until current_index == index
+      current_index += 1
+      current_node = current_node.next_node
+    end
+    current_node.value
+  end
+
   def find(value)
     node = head
     until node.nil?
@@ -85,3 +97,4 @@ puts ll.head.next_node.value
 puts ll.size
 puts ll.head_node
 puts ll.tail
+puts ll.at(0)
