@@ -40,11 +40,6 @@ class LinkedList
     counter
   end
 
-  # returns the first node in the list
-  def head_node
-    head.value
-  end
-
   # returns the last node in the list
   def tail
     node = head
@@ -75,6 +70,22 @@ class LinkedList
     false
   end
 
+  # removes the last node from the list
+  def pop
+    return "empty list" if head.nil?
+
+    if head.next_node.nil?
+      @head = nil
+    else
+      current_node = @head
+      until current_node.next_node.nil?
+        prev_node = current_node
+        current_node = current_node.next_node
+      end
+      prev_node.next_node = nil
+    end
+  end
+
   private
 
   class Node
@@ -95,6 +106,6 @@ ll.prepend(9)
 puts ll.head.value
 puts ll.head.next_node.value
 puts ll.size
-puts ll.head_node
 puts ll.tail
 puts ll.at(0)
+
