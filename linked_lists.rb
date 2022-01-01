@@ -1,132 +1,118 @@
-#
+class Node
+  attr_accessor :value, :next_node
+
+  def initialize(value = nil, next_node = nil)
+    @value = value
+    @next_node = next_node
+  end
+end
+
 class LinkedList
-  # head acts as a place to start for linkedlist
-  attr_accessor :head
-
-  def initialize(head = nil)
-    @head = head
+  def initialize(value)
+    @head = Node.new(value)
   end
 
-  # adds a new node containing value to the end of the list
+# adds a new node containing value to the end of the list
   def append(value)
-    if head.nil?
-      @head = Node.new(value)
-    else
-      node = head
-      node = node.next_node until node.next_node.nil?
-
-      node.next_node = Node.new(value)
-    end
+    current_node = @head
+    new_node = Node.new(value)
+    current_node = current_node.next_node until current_node.next_node.nil?
+    current_node.next_node = new_node
   end
 
-  # adds a new node containing value to the start of the list
+# adds a new node containing value to the START of the list
   def prepend(value)
-    if head.nil?
-      @head = Node.new(value)
-    else
-      next_node = head
-      @head = Node.new(value, next_node)
-    end
+    new_head = Node.new(value)
+    new_head.next_node = @head
+    @head = new_head
   end
 
-  # returns the total number of nodes in the list
+# returns the total number of nodes in the list
   def size
     counter = 0
-    node = head
-    until node.nil?
+    current_node = @head
+    until current_node.nil?
       counter += 1
-      node = node.next_node
+      current_node = current_node.next_node
     end
     counter
   end
 
-  # returns the last node in the list
-  def tail
-    node = head
-    node = node.next_node until node.next_node.nil?
-    node.value
+  def my_head
+    "#{@head}, value = #{@head.value}"
+  end
+
+  def my_tail
+    current_node = @head
+    current_node = current_node.next_node until current_node.next_node.nil?
+
+    "#{current_node}, value = #{current_node.value}"
   end
 
   # returns the node at the given index
   def at(index)
-    current_node = head
-    current_index = 0
-    return current_node.value if index.zero?
+    current_node = @head
+    index.times { current_node = current_node.next_node }
+    current_node
+  end
 
-    until current_index == index
-      current_index += 1
+  # removes the last element from the list
+  def pop
+    current_node = @head
+    until current_node.next_node.nil?
+      previous_node = current_node
       current_node = current_node.next_node
     end
-    current_node.value
+    previous_node.next_node = nil
   end
 
-  def find(value)
-    node = head
-    until node.nil?
-      return true if node.value == value
-
-      node = node.next_node
-    end
-    false
-  end
-
-  # removes the last node from the list
-  def pop
-    return "empty list" if head.nil?
-
-    if head.next_node.nil?
-      @head = nil
-    else
-      current_node = @head
-      until current_node.next_node.nil?
-        prev_node = current_node
-        current_node = current_node.next_node
-      end
-      prev_node.next_node = nil
-    end
-  end
   # returns true if the passed in value is in the list and otherwise returns false.
   def contains?(value)
-    current_node = head
-    until current_node.next_node.nil?
-      return true if current_node.value == value
-
-      current_node = current_node.next_node
-    end
-    false
-  end
-
-  def to_s
-    output = ''
-    current_node = head
+    current_node = @head
+    boolean = false
     until current_node.nil?
-      output << "( #{current_node.value} ) ->"
+      boolean = true if current_node.value == value
       current_node = current_node.next_node
     end
-    output << 'nil'
-    output
+    boolean
   end
 
-  private
+  # returns the index of the node containing value, or nil if not found
+  def find(value)
+    current_node = @head
+    index = 0
+    found = false
+    until current_node.nil?
+      found = true if current_node.data == value
+      current_node = current_node.next_node
+      index += 1 unless found
+    end
+    index if found
+  end
 
-  class Node
-    attr_accessor :value, :next_node
-
-    def initialize(value = nil, next_node = nil)
-      @value = value
-      @next_node = next_node
+  # represent your LinkedList objects as strings, so you can print them out and preview them in the console.
+  def to_s
+    current_node = @head
+    until current_node.nil?
+      print "( #{current_node.value} ) -> "
+      current_node = current_node.next_node
     end
   end
 end
 
-ll = LinkedList.new
-ll.prepend(15)
-ll.prepend(8)
-ll.prepend(3)
-ll.prepend(9)
-puts ll.head.value
-puts ll.head.next_node.value
-puts ll.size
-puts ll.tail
-puts ll.at(0)
-puts ll.contains?(9)
+linked_list = LinkedList.new(5)
+linked_list.append(7)
+linked_list.append(8)
+linked_list.prepend(3)
+linked_list.prepend(2)
+p linked_list.to_s
+p linked_list.size
+p linked_list.my_head
+p linked_list.my_tail
+p linked_list.at(3)
+# linked_list.pop
+linked_list.append(9)
+linked_list.prepend(6)
+p linked_list.contains?(3)
+p linked_list.contains?(4)
+p linked_list.to_s
